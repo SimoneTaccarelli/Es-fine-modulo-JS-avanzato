@@ -37,7 +37,7 @@ function createProduct(nameInput, brandInput, descriptionInput, imageInput, pric
     }
         
     console.log('Dati da inviare:', JSON.parse(newProduct.body));
-    
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     let url = fetch("https://striveschool-api.herokuapp.com/api/product/", newProduct)
     .then(response => response.json())
     .then(data => {
@@ -60,6 +60,7 @@ function createProduct(nameInput, brandInput, descriptionInput, imageInput, pric
 
 //funzione per eliminare il prodotto
 function eliminateProduct(productId) {
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     fetch(`https://striveschool-api.herokuapp.com/api/product/${productId}`, {
         method: "DELETE",
         headers: {
@@ -68,6 +69,7 @@ function eliminateProduct(productId) {
     })
     .then(response => response.json())
     .then(data => {
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         console.log('Prodotto eliminato con successo:', data);
         info(); // Aggiorna la tabella dopo l'eliminazione
     })
@@ -81,10 +83,6 @@ function eliminateProduct(productId) {
 
 document.addEventListener("DOMContentLoaded", function() {
     info()
-    document.querySelector('.spinnerAdmin').style.display = 'block';
-    setTimeout(() => {
-        document.querySelector('.spinnerAdmin').style.display = 'none';
-    }, 4000);
 })
 
 const info = () => {
@@ -92,7 +90,7 @@ const info = () => {
     
     // Torniamo all'URL originale che funzionava
     let url = "https://striveschool-api.herokuapp.com/api/product/"
-    
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     fetch(url, {
         headers: {
             "Authorization": Authorization
@@ -108,7 +106,7 @@ const info = () => {
         console.log('Dati ricevuti:', data); // Debug
 
         let html = "<table><tr><th class='text-center'>Image</th><th class='text-center'>Name</th><th class='text-center'>Marca</th><th class='text-center'>Description</th><th class='text-center'>Price</th><th class='text-center'>Delete</th></tr>"
-        
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         for(let product of data) {
             html += `
                 <tr>
@@ -159,6 +157,7 @@ function modifyName(productId, newName) {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
     console.log(productId, newName)
     //creo l'url per modificare il nome
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     let url = `https://striveschool-api.herokuapp.com/api/product/${productId}`
     fetch(url, {
         method: "PUT",
@@ -172,6 +171,7 @@ function modifyName(productId, newName) {
     })
     .then(response => response.json())
     .then(data => {
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         console.log('Prodotto modificato con successo:', data);
         info()
     })
@@ -190,6 +190,7 @@ function modifyBrand(productId, newBrand) {
     const headers = {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
     console.log(productId, newBrand)
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     let url = `https://striveschool-api.herokuapp.com/api/product/${productId}`
     fetch(url, {
         method: "PUT",
@@ -203,6 +204,7 @@ function modifyBrand(productId, newBrand) {
     })
     .then(response => response.json())
     .then(data => {
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         console.log('Prodotto modificato con successo:', data);
         info()
     })
@@ -222,6 +224,7 @@ function modifyDescription(productId, newDescription) {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
     console.log(productId, newDescription)
     let url = `https://striveschool-api.herokuapp.com/api/product/${productId}`
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     fetch(url, {
         method: "PUT",
         headers: {
@@ -234,6 +237,7 @@ function modifyDescription(productId, newDescription) {
     })
     .then(response => response.json())
     .then(data => {
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         console.log('Prodotto modificato con successo:', data);
         info()
     })
@@ -261,7 +265,7 @@ function modifyPrice(productId, newPrice) {
     const headers = {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"
     }
-
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     let url = `https://striveschool-api.herokuapp.com/api/product/${productId}`
     fetch(url, {
         method: "PUT",
@@ -275,6 +279,7 @@ function modifyPrice(productId, newPrice) {
     })
     .then(response => response.json())
     .then(data => {
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         console.log('Prodotto modificato con successo:', data);
         info()
     })
@@ -293,6 +298,7 @@ function modifyImage(productId, newImage) {
     const headers = {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
     console.log(productId, newImage)
+    document.querySelector('.spinnerAdmin').style.display = 'block';
     let url = `https://striveschool-api.herokuapp.com/api/product/${productId}`
     fetch(url, {
         method: "PUT",
@@ -306,6 +312,7 @@ function modifyImage(productId, newImage) {
     })
     .then(response => response.json())
     .then(data => {
+        document.querySelector('.spinnerAdmin').style.display = 'none';
         console.log('Prodotto modificato con successo:', data);
         info()
     })

@@ -12,6 +12,7 @@ const headers = {
 const createCard = () => {
     console.log("createCard iniziata");
     let products = document.getElementById("products")
+    document.querySelector('.spinnerHome').style.display = 'block';
     // Test diretto dell'API con fetch
     fetch("https://striveschool-api.herokuapp.com/api/product/", {
         method: 'GET',
@@ -19,9 +20,11 @@ const createCard = () => {
             "Authorization": headers.Authorization,
             "Content-Type": "application/json"
         }
+        
     })
         .then(response => response.json())
-        .then(data =>
+        .then(data => {
+            document.querySelector('.spinnerHome').style.display = 'none';
             products.innerHTML = data.map(product => {
                 return `<div class="col-lg-3 col-md-4 col-sm-6 mt-3 cardProduct"  id="${product._id}">
             <div class="card">
@@ -37,7 +40,7 @@ const createCard = () => {
           </div>
           </div>`
             }).join('')
-        )
+        })
         .catch(error => {
             console.error("Errore:", error);
         });
@@ -109,12 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM caricato");
     createCard();
     checkLoginState();
-    document.querySelector('.spinnerHome').style.display = 'block';
-    setTimeout(() => {
-        document.querySelector('.spinnerHome').style.display = 'none';
-    }, 4000);
-
-
     let access = document.getElementById('access')
     access.addEventListener('click', inputLogin)
 });

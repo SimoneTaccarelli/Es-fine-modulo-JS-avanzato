@@ -2,9 +2,9 @@ const headers = {
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4Mzg3MjcsImV4cCI6MTczNzA0ODMyN30.HGqsTIO8yLdarrMX-Oyu016dSadQq3af2upVYycvViA"
 }
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.spinnerDetails').style.display = 'block';
+    
     setTimeout(() => {
-        document.querySelector('.spinnerDetails').style.display = 'none';
+        
     }, 3000);
     const id = new URLSearchParams(window.location.search).get("id");
     console.log(id);
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-
+    document.querySelector('.spinnerDetails').style.display = 'block';
     fetch(`https://striveschool-api.herokuapp.com/api/product/${id}`, {
         method: 'GET',
         headers: {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             let details = document.getElementById("details");
             console.log(data.imageUrl);
-    
+            document.querySelector('.spinnerDetails').style.display = 'none';
             details.innerHTML = `<div class="row" data-id="${data._id}">
                                     <div id="img" class="col-12 col-md-6">
                                         <img src="${data.imageUrl}" class="card-img-top rounded-1" alt="...">
