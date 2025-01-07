@@ -1,3 +1,10 @@
+const Authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4";
+
+const createButton = document.getElementById("create")
+
+createButton.addEventListener("click", infoCreate)
+
+
 function infoCreate() {
     //prendo i valori degli input
     const nameInput = document.getElementById("name").value
@@ -13,14 +20,12 @@ function infoCreate() {
 //creo la funzione per creare il prodotto
 function createProduct(nameInput, brandInput, descriptionInput, imageInput, priceInput) {
     
-    const headers = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
     
     let newProduct = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": headers.Authorization
+            "Authorization": Authorization
         },
         body: JSON.stringify({
             "name": nameInput,
@@ -37,13 +42,12 @@ function createProduct(nameInput, brandInput, descriptionInput, imageInput, pric
     .then(response => response.json())
     .then(data => {
         console.log('Successo:', data);
-        //resetta i campi
-        nameInput.value = ""
-        brandInput.value = ""
-        descriptionInput.value = ""
-        imageInput.value = ""
-        priceInput.value = ""
-        
+        document.getElementById("name").value = "";
+        document.getElementById("brand").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("image").value = "";
+        document.getElementById("price").value = "";
+        info();
     })
     .catch(error => {
         console.error('Errore durante la creazione del prodotto:', error);
@@ -56,13 +60,10 @@ function createProduct(nameInput, brandInput, descriptionInput, imageInput, pric
 
 //funzione per eliminare il prodotto
 function eliminateProduct(productId) {
-    const headers = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzYyOGRjMTUzMDRhNzAwMTUxNDhiOTAiLCJpYXQiOjE3MzQ1MTIwNjUsImV4cCI6MTczNTcyMTY2NX0.Pw0R-pqH_nHd_2j1uboYq4sIhh6NUgIHejtTSzgnsN4"
-    }
     fetch(`https://striveschool-api.herokuapp.com/api/product/${productId}`, {
         method: "DELETE",
         headers: {
-            "Authorization": headers.Authorization
+            "Authorization": Authorization
         }
     })
     .then(response => response.json())
@@ -87,15 +88,15 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 const info = () => {
-    const headers = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
     let table = document.getElementById("products")
     
     // Torniamo all'URL originale che funzionava
     let url = "https://striveschool-api.herokuapp.com/api/product/"
     
     fetch(url, {
-        headers: headers
+        headers: {
+            "Authorization": Authorization
+        }
     })
     .then(response => {
         if (!response.ok) {
@@ -248,9 +249,19 @@ function modificaPrice(productId) {
 }
 
 function modifyPrice(productId, newPrice) {
+    // Converti il prezzo in numero float
+    const parsedPrice = parseFloat(newPrice);
+    
+    // Verifica se il prezzo è un numero valido
+    if (isNaN(parsedPrice)) {
+        alert("Per favore, inserisci un prezzo valido");
+        return;
+    }
+
     const headers = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"    }
-    console.log(productId, newPrice)
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzc2Y2MwNmNmOGIyNDAwMTU3NzFmYTkiLCJpYXQiOjE3MzU4MzkzNzAsImV4cCI6MTczNzA0ODk3MH0.eXmFsgbgdvKSkcqfNIi-rHBgOz47nWKyshF_Wu5BHK4"
+    }
+
     let url = `https://striveschool-api.herokuapp.com/api/product/${productId}`
     fetch(url, {
         method: "PUT",
@@ -259,7 +270,7 @@ function modifyPrice(productId, newPrice) {
             "Authorization": headers.Authorization
         },
         body: JSON.stringify({
-            price: newPrice
+            price: parsedPrice // Usa il prezzo convertito
         })
     })
     .then(response => response.json())
